@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🐲 Bestiaire</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body id="bestiaire">
+  <div class="topbar">
+    <a class="back" href="index.html">⬅ Retour</a>
+    <h1>🐲 Bestiaire</h1>
+  </div>
+
+  <div class="wrapper">
+    <table id="table">
+      <thead>
+        <tr>
+          <th>Image</th><th>Nom</th><th>Tier</th><th>Vie</th><th>Dégâts</th><th>Force</th><th>Force KO</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <script>
+    const MONSTRES=[
+      {nom:"Peeper",tier:1,vie:30,degats:"2/sec",force:"[Impossible]",force_ko:"[Impossible]"},
+      {nom:"Shadow Child",tier:1,vie:150,degats:30,force:9,force_ko:1},
+      {nom:"Gnome",tier:1,vie:20,degats:10,force:0,force_ko:0},
+      {nom:"Apex Predator",tier:1,vie:150,degats:10,force:"[Impossible]",force_ko:0},
+      {nom:"Spewer",tier:1,vie:65,degats:10,force:4,force_ko:0},
+      {nom:"Rugrat",tier:2,vie:150,degats:"19–225",force:4,force_ko:0},
+      {nom:"Animal",tier:2,vie:150,degats:2,force:4,force_ko:1},
+      {nom:"Upscream",tier:2,vie:50,degats:10,force:4,force_ko:0},
+      {nom:"Chef",tier:2,vie:250,degats:10,force:9,force_ko:1},
+      {nom:"Hidden",tier:2,vie:100,degats:0,force:4,force_ko:0},
+      {nom:"Bowtie",tier:2,vie:200,degats:5,force:7,force_ko:2},
+      {nom:"Mentalist",tier:2,vie:150,degats:50,force:4,force_ko:0},
+      {nom:"Banger",tier:2,vie:50,degats:"Variable",force:0,force_ko:0},
+      {nom:"Headman",tier:3,vie:250,degats:50,force:13,force_ko:4},
+      {nom:"Robe",tier:3,vie:250,degats:"Standing: 100 \\nCrouched: 50",force:13,force_ko:4},
+      {nom:"Huntsman",tier:3,vie:250,degats:100,force:9,force_ko:"?"},
+      {nom:"Reaper",tier:3,vie:250,degats:10,force:9,force_ko:0},
+      {nom:"Clown",tier:3,vie:250,degats:"Beam: 25+75 \\nKick: 10+50",force:13,force_ko:1},
+      {nom:"Trudge",tier:3,vie:500,degats:"Slam: Insta-kill \\nVacuum: 100 (50x2) \\nBite: 50",force:13,force_ko:1}
+    ];
+
+    const tbody=document.querySelector('#table tbody');
+    MONSTRES.forEach(m=>{
+      const tr=document.createElement('tr');
+      const degatsHtml = m.degats.toString().replace(/\\n/g,'<br>');
+      const imgPath=`img/${m.nom.toLowerCase().replace(/ /g,'_')}_transparent.webp`;
+      tr.innerHTML=`
+        <td><img class="monster" src="${imgPath}" alt="${m.nom}"/></td>
+        <td>${m.nom}</td>
+        <td>${m.tier}</td>
+        <td>${m.vie}</td>
+        <td>${degatsHtml}</td>
+        <td>${m.force}</td>
+        <td>${m.force_ko}</td>`;
+      tbody.appendChild(tr);
+    });
+  </script>
+</body>
+</html>

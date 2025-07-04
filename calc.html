@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>💰 Calculateur de Prix Max</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body id="calc">
+  <div class="topbar"><a class="back" href="index.html">⬅ Retour</a></div>
+  <h1>💰 Calculateur de Prix Max</h1>
+
+  <label for="level">Niveau (≥ 1)</label>
+  <input id="level" type="number" min="1" value="1" />
+
+  <label for="value">Valeur du premier site</label>
+  <input id="value" type="number" min="1" value="1" />
+
+  <button id="calc_btn">🧮 Calculer</button>
+
+  <div class="card" id="card" hidden>
+    <div>Résultat :</div>
+    <div class="result" id="result">$ 0</div>
+    <div class="mono" id="tiers">—</div>
+    <div class="mono" id="total">—</div>
+  </div>
+
+  <script>
+    const COEFFICIENTS={1:3.57142851821014,2:4.76190457268368,3:4.74639982908994,4:7.07604922227163,5:7.00606421609719,6:9.20059248925003,7:8.99406905420288,8:8.70545410147724,9:8.39388691548115,10:8.21523722771264,11:8.1699877074361};
+    function getMonsterTiers(l){if(l<=2)return[1,0,1];if(l<=5)return[1,1,1];if(l<=8)return[2,2,2];if(l<=10)return[2,3,2];return[2,3,3];}
+    const levelInput=document.getElementById('level');
+    const valueInput=document.getElementById('value');
+    const resultEl=document.getElementById('result');
+    const tiersEl=document.getElementById('tiers');
+    const totalEl=document.getElementById('total');
+    const cardEl=document.getElementById('card');
+    document.getElementById('calc_btn').addEventListener('click',()=>{
+      const lvl=+levelInput.value||1; const val=+valueInput.value||1;
+      const coef=lvl>11?COEFFICIENTS[11]:COEFFICIENTS[lvl];
+      const price=Math.round(val*coef);
+      const[t1,t2,t3]=getMonsterTiers(lvl);
+      resultEl.textContent=`$ ${price}`;
+      tiersEl.textContent=`${t1}× Tier 1  |  ${t2}× Tier 2  |  ${t3}× Tier 3`;
+      totalEl.textContent=`Total : ${t1+t2+t3} monstres`;
+      cardEl.hidden=false;
+    });
+  </script>
+</body>
+</html>
