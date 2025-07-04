@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🔫 Armurerie</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body id="armes" style="background:#181818;">
+  <div class="topbar">
+    <a class="back" href="index.html">⬅ Retour</a>
+    <h1>🔫 Armurerie</h1>
+  </div>
+
+  <div class="table-wrapper">
+    <table id="table-armes">
+      <thead>
+        <tr>
+          <th>Image</th>
+          <th>Nom</th>
+          <th>Prix</th>
+          <th>Dégâts</th>
+          <th>Description</th>
+          <th>Qté max</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <script>
+    // Liste d'armes (données identiques à avant)
+    const ARMES = [
+      { nom: "Baseball Bat", prix: "25k-29k", degats: "20", description: "10 coups avant recharge. Étourdit brièvement et repousse fortement. La poussée inflige généralement 25 dégâts. Avec un coup incliné vers le bas on assure 25-50 dégâts.", max: 1 },
+      { nom: "Frying Pan", prix: "17k-30k", degats: "18", description: "15 coups avant recharge. Inflige des dégâts et peut faire tomber les petits ennemis ou joueurs.", max: 1 },
+      { nom: "Sledge Hammer", prix: "40k-47k", degats: "150", description: "10 coups avant recharge. Arme lourde. Peut pousser les gros ou ennemis étourdis hors des rebords.", max: 1 },
+      { nom: "Sword", prix: "20k-30k", degats: "50", description: "15 coups avant recharge. Arme rapide. N'étourdit aucun ennemi.", max: 1 },
+      { nom: "Inflatable Hammer", prix: "9k-18k", degats: "5 ou 250", description: "20 coups avant recharge. ~5 % de chance d'exploser et d'infliger 250 dégâts.", max: 1 },
+      { nom: "Prodzap", prix: "≈30k", degats: "8 (4×2)", description: "Matraque futuriste. Inflige 8 dégâts et étourdit 3 s. 16 coups avant recharge.", max: 1 },
+      { nom: "Gun", prix: "19k-20k", degats: "80 (monstre) / 100 (joueur)", description: "Projectile à dégâts moyens. 15 tirs avant recharge.", max: 1 },
+      { nom: "Shotgun", prix: "39k-48k", degats: "300 (6×50)", description: "Salve à fort dégâts (50 par plomb). 5 tirs avant recharge.", max: 1 },
+      { nom: "Tranq Gun", prix: "15k-18k", degats: "0 + étourdit 18 s", description: "8 tirs avant recharge.", max: 1 },
+      { nom: "Pulse Pistol", prix: "15k-18k", degats: "25 + gros knock-back", description: "12 tirs avant recharge.", max: 1 },
+      { nom: "Photon Blaster", prix: "39k-48k", degats: "270 (45×6) / 100", description: "Rayon continu, 45 dégâts par tick (270 max). 5 tirs avant recharge.", max: 1 },
+      { nom: "Boltzap", prix: "15k-18k", degats: "8 (4×2) + étourdit 1,5 s", description: "20 tirs avant recharge.", max: 1 },
+      { nom: "C.A.R.T. Cannon", prix: "39k-48k", degats: "500 / 50", description: "Boulet explosif après un court chargement. 5 tirs avant recharge.", max: 1 },
+      { nom: "C.A.R.T. Laser", prix: "39k-48k", degats: "800 / 200", description: "Laser jaune, 100 dégâts par tick (800 max). 5 tirs avant recharge.", max: 1 },
+      { nom: "Grenade", prix: "3k", degats: "160 / 75", description: "Petite explosion (10 m) qui blesse les monstres proches.", max: 3 },
+      { nom: "Shockwave Grenade", prix: "2k", degats: "0", description: "Onde de choc (30 m) repoussant les monstres. Peut infliger des dégâts de chute.", max: 3 },
+      { nom: "Stun Grenade", prix: "2k", degats: "0", description: "Flash qui étourdit jusqu'à 15 s (inefficace sur Peeper).", max: 2 },
+      { nom: "Human Grenade", prix: "2k", degats: "100 / 50", description: "Explosion (10 m) touchant monstres et joueurs. Apparaît dans une niche au plafond.", max: 3 },
+      { nom: "Duct Taped Grenade", prix: "2k", degats: "400 (100×4) / 50×4", description: "Explosion initiale puis projette 3 human grenades récupérables. Disparaissent en fin de manche.", max: 3 },
+      { nom: "Shockwave Mine", prix: "3k", degats: "25 (collision)", description: "Posable. Armement 5 s. Étourdit dans 30 m.", max: 3 },
+      { nom: "Trapzap", prix: "3k", degats: "0-5 / 3", description: "Mine électrique volante après déclenchement, étourdit. Peut infliger 5 dégâts.", max: 3 },
+      { nom: "Explosive Mine", prix: "3k", degats: "200 / 75", description: "Mine explosive. Armement 5 s. Rayon 20 m.", max: 3 },
+      { nom: "Rubber Duck", prix: "16k-20k", degats: "50 (impact) ou 250 (explosion)", description: "Canard rebondissant (10 % d'explosion à 250 dégâts). 50 dégâts si vitesse suffisante.", max: 1 }
+    ];
+
+    const tbody = document.querySelector('#table-armes tbody');
+
+    ARMES.forEach(w => {
+      const tr = document.createElement('tr');
+      // Remplacement : chaque point suivi d'un espace → <br>
+      const descHtml = w.description.replace(/\.\s+/g, '.<br>');
+      const imgPath = `img/${w.nom.toLowerCase()
+        .replace(/[^a-z0-9]+/g, '_')   // remplace tout sauf lettres/chiffres par _
+        .replace(/_+/g, '_')           // compresse plusieurs _ en un seul
+        .replace(/^_|_$/g, '')         // enlève _ au début / à la fin
+      }.webp`;
+
+      tr.innerHTML = `
+        <td><img class="icon" src="${imgPath}" alt="${w.nom}"></td>
+        <td>${w.nom}</td>
+        <td>${w.prix}</td>
+        <td>${w.degats}</td>
+        <td>${descHtml}</td>
+        <td>${w.max}</td>
+      `;
+      tbody.appendChild(tr);
+    });
+  </script>
+</body>
+</html>

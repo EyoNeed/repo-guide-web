@@ -17,21 +17,21 @@ body { font-family: "Segoe UI", sans-serif; color: #fff; }
 }
 .btn:hover{transform:translateY(-2px);}
 
-/* ===  Page Bestiaire  (body#bestiaire)  === */
-#bestiaire { background:#181818; font-size:15px; }
+/* ===  Tableaux communs (bestiaire & armurerie) === */
+.table-wrapper {height:calc(100vh - 70px);overflow-y:auto;padding-bottom:2rem;}
+
+.table-wrapper table { width:100%;border-collapse:collapse; }
+.table-wrapper thead { background:#282828; }
+.table-wrapper th, .table-wrapper td{padding:.6rem .4rem;text-align:center;vertical-align:middle;}
+.table-wrapper th{font-weight:600;}
+.table-wrapper tbody tr:nth-child(even){background:#1c1c1c;}
+.table-wrapper tbody tr:nth-child(odd){background:#202020;}
+.table-wrapper img.icon{width:160px;height:160px;object-fit:contain;}
+
+/* ===  Topbar (back + titre) === */
 .topbar { display:flex;align-items:center;gap:.5rem;padding:1rem; }
 .back { background:#333;border:none;color:#fff;padding:.4rem .8rem;border-radius:var(--radius);text-decoration:none; }
-#bestiaire h1 { font-size:1.6rem;margin:0 auto 0 0; }
-
-/* tableau */
-table { width:100%;border-collapse:collapse; }
-thead { background:#282828; }
-th,td{padding:.6rem .4rem;text-align:center;vertical-align:middle;}
-th{font-weight:600;}
-tbody tr:nth-child(even){background:#1c1c1c;}
-tbody tr:nth-child(odd){background:#202020;}
-img.monster{width:160px;height:160px;object-fit:contain;}
-.wrapper{height:calc(100vh - 70px);overflow-y:auto;padding-bottom:2rem;}
+.topbar h1 { font-size:1.6rem;margin:0 auto 0 0; }
 
 /* ===  Page Calculateur  (body#calc)  === */
 #calc { background:#181818; display:flex;flex-direction:column;align-items:center; }
@@ -40,7 +40,7 @@ img.monster{width:160px;height:160px;object-fit:contain;}
 label{display:block;margin:.8rem 0 .2rem;}
 input{width:220px;padding:.5rem .7rem;border-radius:var(--radius);border:none;background:#333;color:#fff;}
 button{margin-top:1.2rem;padding:.7rem 1.5rem;background:#444;color:#fff;border:none;border-radius:var(--radius);cursor:pointer;font-size:1rem;}
-button:hover{transform:translateY(-2px);}
+button:hover{transform:translateY(-2px);} 
 .card{margin-top:2rem;background:#2a2a2a;border-radius:var(--radius);padding:1rem 2rem;text-align:center;width:280px;}
 .result{font-size:1.8rem;font-weight:700;color:#00ff00;margin:.8rem 0;}
 .mono{font-family:monospace;}
